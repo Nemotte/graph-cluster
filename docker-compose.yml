@@ -1,0 +1,33 @@
+version: '3'
+services:
+  master:
+    build:
+      context: ./master
+      dockerfile: ../master.Dockerfile
+    depends_on:
+      - worker1
+      - worker2
+    networks:
+      - graphnet
+
+  worker1:
+    build:
+      context: ./worker
+      dockerfile: ../worker.Dockerfile
+    ports:
+      - "8081:8080"
+    networks:
+      - graphnet
+
+  worker2:
+    build:
+      context: ./worker
+      dockerfile: ../worker.Dockerfile
+    ports:
+      - "8082:8080"
+    networks:
+      - graphnet
+
+networks:
+  graphnet:
+    driver: bridge
